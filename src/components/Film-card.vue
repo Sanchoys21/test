@@ -1,10 +1,11 @@
 <script>
 export default {
-  name: "Film-card",
+  name: "FilmCard",
   props: {
     title: String,
     year: String,
-    image: String
+    image: String,
+    description: String,
   },
   computed: {
     style() {
@@ -21,6 +22,7 @@ export default {
     <div class="content">
       <h3 class="title">{{ title }}</h3>
       <p class="year">{{ year }}</p>
+      <p class="description">{{ description }}</p>
     </div>
   </div>
 </template>
@@ -30,15 +32,29 @@ export default {
   flex: 0 0 auto;
   border: 1px solid #000;
   border-radius: 10px;
-  width: 250px;
-  height: 140px;
+  width: 500px;
+  height: 281px;
   background: rgba(0, 0, 0, 0.35) var(--background-image);
   background-blend-mode: darken;
-  background-size: contain;
+  position: relative;
 }
 
 .content {
-  padding: 80px 20px 0 20px;
+  position: absolute;
+  bottom: 0;
+  padding: 5%;
+  width: 90%;
+}
+
+.description {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.card:hover .description {
+  opacity: 1;
+  max-height: 200px;
 }
 
 .card h3, .card p {

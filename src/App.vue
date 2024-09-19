@@ -11,7 +11,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const {data} = await apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc')
-      console.log(data)
+      // console.log(data)
       trending.value = data.results
     })
 
@@ -69,6 +69,7 @@ export default defineComponent({
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
                      :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                     :description="movie.overview"
           ></film-card>
         </div>
       </section>
@@ -81,6 +82,7 @@ export default defineComponent({
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
                      :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                     :description="movie.overview"
           ></film-card>
         </div>
       </section>
