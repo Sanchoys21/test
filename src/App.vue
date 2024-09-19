@@ -68,16 +68,19 @@ export default defineComponent({
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
+                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
           ></film-card>
         </div>
       </section>
       <section class="top">
+        <!--A new API get needed-->
         <h2>Top Rated</h2>
         <div class="movie-list">
           <film-card v-for="(movie, index) in trending"
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
+                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
           ></film-card>
         </div>
       </section>
@@ -177,6 +180,7 @@ button {
   flex-direction: row;
   gap: 10px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 </style>
