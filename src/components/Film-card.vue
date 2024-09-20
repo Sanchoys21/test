@@ -6,22 +6,18 @@ export default {
     year: String,
     image: String,
     description: String,
-  },
-  computed: {
-    style() {
-      return {
-        '--background-image': 'url(' + this.image + ')'
-      }
-    }
+    rating: Number,
   }
 }
 </script>
 
 <template>
-  <div class="card" :style="style">
+  <div class="card">
+    <img :src="image" alt="poster"/>
     <div class="content">
       <h3 class="title">{{ title }}</h3>
       <p class="year">{{ year }}</p>
+      <p class="rating">Rating: {{ rating }}</p>
       <p class="description">{{ description }}</p>
     </div>
   </div>
@@ -30,13 +26,14 @@ export default {
 <style scoped>
 .card {
   flex: 0 0 auto;
-  border: 1px solid #000;
-  border-radius: 10px;
   width: 500px;
   height: 281px;
-  background: rgba(0, 0, 0, 0.35) var(--background-image);
-  background-blend-mode: darken;
   position: relative;
+}
+
+.card img {
+  border-radius: 10px;
+  filter: brightness(70%);
 }
 
 .content {

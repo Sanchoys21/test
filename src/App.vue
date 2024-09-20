@@ -8,16 +8,22 @@ export default defineComponent({
   setup() {
 
     const trending = ref([])
+    const topRated = ref([])
 
     onMounted(async () => {
-      const {data} = await apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc')
-      // console.log(data)
-      trending.value = data.results
+      const [trendingData, topRatedData] = await Promise.all([
+        apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'),
+        apiClient.get('discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=200')
+      ])
+      console.log(topRatedData.data)
+      trending.value = trendingData.data.results
+      topRated.value = topRatedData.data.results
     })
 
 
     return {
-      trending
+      trending,
+      topRated
     }
   }
 })
@@ -70,19 +76,20 @@ export default defineComponent({
                      :year="movie.release_date.split('-')[0]"
                      :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
                      :description="movie.overview"
+                     :rating="Math.round(movie.vote_average * 10) / 10"
           ></film-card>
         </div>
       </section>
       <section class="top">
-        <!--A new API get needed-->
         <h2>Top Rated</h2>
         <div class="movie-list">
-          <film-card v-for="(movie, index) in trending"
+          <film-card v-for="(movie, index) in topRated"
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
                      :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
                      :description="movie.overview"
+                     :rating="Math.round(movie.vote_average * 10) / 10"
           ></film-card>
         </div>
       </section>
