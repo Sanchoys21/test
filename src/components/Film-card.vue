@@ -8,7 +8,7 @@ export default {
     description: String,
     rating: Number,
     size: {
-      validator: (value, props) => {
+      validator: (value) => {
         return ['small', 'medium', 'large'].includes(value);
       },
       default: 'medium'
@@ -74,23 +74,24 @@ export default {
   font-weight: bold;
 }
 
-.card .description {
-  max-height: 0;
-  opacity: 0;
-  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-.large:hover .description {
-  opacity: 1;
-  max-height: 200px;
-}
-
 .card h3, .card p {
   padding: 0;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.card .description {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  white-space: unset;
+}
+
+.large:hover .description {
+  opacity: 1;
+  max-height: 200px;
 }
 
 </style>

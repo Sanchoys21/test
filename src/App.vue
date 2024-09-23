@@ -1,29 +1,39 @@
 <script>
 import {defineComponent, onMounted, ref} from "vue";
-import apiClient from "@/plugins/apiClient.js";
 import FilmCard from "@/components/Film-card.vue";
+import axios from "axios";
+import LeftSidebar from "@/components/LeftSidebar.vue";
+import RightSidebar from "@/components/RightSidebar.vue";
+import {useMovieStore} from "@/stores/movies.js";
+import apiClient from "@/plugins/apiClient.js";
 
 export default defineComponent({
-  components: {FilmCard},
+  components: {RightSidebar, LeftSidebar, FilmCard},
   setup() {
+    const store = useMovieStore();
+    const profile = ref({})
+    const genres = ref([])
 
-    const trending = ref([])
-    const topRated = ref([])
+    const cancel = () => {
+      store.clearSearch()
+    }
 
     onMounted(async () => {
-      const [trendingData, topRatedData] = await Promise.all([
-        apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'),
-        apiClient.get('discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=200')
-      ])
-      console.log(topRatedData.data)
-      trending.value = trendingData.data.results
-      topRated.value = topRatedData.data.results
+      const genresResponse = await apiClient.get(`https://api.themoviedb.org/3/genre/movie/list?language=en}`);
+      console.log(genresResponse)
+      genres.value = genresResponse.data.genres;
+
+      const profileResponse = await axios.get("https://dummyjson.com/users/1");
+      profile.value = profileResponse.data;
     })
 
+    store.getMovies();
 
     return {
-      trending,
-      topRated
+      store,
+      profile,
+      genres,
+      cancel
     }
   }
 })
@@ -31,35 +41,24 @@ export default defineComponent({
 
 <template>
   <div class="page">
-    <aside class="sidebar-streaming">
-      <!--      icons-->
-    </aside>
-    <aside class="sidebar">
-      <div class="menu">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Discovery</a></li>
-          <li><a href="#">Community</a></li>
-          <li><a href="#">Coming soon</a></li>
-        </ul>
+    <LeftSidebar/>
+    <main v-if="store.results.length">
+      <div class="top-bar">
+        <button @click="cancel" class="button">Cancel Search</button>
       </div>
-      <div class="library">
-        <ul>
-          <li><a href="#">Recent</a></li>
-          <li><a href="#">Bookmarked</a></li>
-          <li><a href="#">Top Rated</a></li>
-          <li><a href="#">Downloaded</a></li>
-        </ul>
+      <div class="search-list">
+        <film-card v-for="(movie, index) in store.results"
+                   :key="index"
+                   :title="movie.title"
+                   :year="movie.release_date.split('-')[0]"
+                   :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                   :description="movie.overview"
+                   :rating="Math.round(movie.vote_average * 10) / 10"
+                   :size="`large`"
+        ></film-card>
       </div>
-      <div class="settings">
-        <ul>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Help</a></li>
-        </ul>
-      </div>
-      <button class="logout">Logout</button>
-    </aside>
-    <main>
+    </main>
+    <main v-else>
       <div class="top-bar">
         <ul>
           <li><a href="#">Movies</a></li>
@@ -70,7 +69,7 @@ export default defineComponent({
       <section class="trending">
         <h2>Trending Movies</h2>
         <div class="movie-list">
-          <film-card v-for="(movie, index) in trending"
+          <film-card v-for="(movie, index) in store.trending"
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
@@ -84,7 +83,7 @@ export default defineComponent({
       <section class="top">
         <h2>Top Rated</h2>
         <div class="movie-list">
-          <film-card v-for="(movie, index) in topRated"
+          <film-card v-for="(movie, index) in store.topRated"
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
@@ -94,11 +93,11 @@ export default defineComponent({
           ></film-card>
         </div>
       </section>
-<!--      to check small size-->
+      <!--      to check small size-->
       <section class="trending">
         <h2>Small size test</h2>
         <div class="movie-list">
-          <film-card v-for="(movie, index) in trending"
+          <film-card v-for="(movie, index) in store.trending"
                      :key="index"
                      :title="movie.title"
                      :year="movie.release_date.split('-')[0]"
@@ -110,10 +109,7 @@ export default defineComponent({
         </div>
       </section>
     </main>
-    <aside class="sidebar-right">
-      <div class="profile-data"></div>
-
-    </aside>
+    <RightSidebar :profile="profile" :genres="genres"/>
   </div>
 </template>
 
@@ -124,46 +120,6 @@ export default defineComponent({
   color: white;
   height: 100vh;
   font-family: sans-serif;
-}
-
-.sidebar-streaming {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 5%;
-  padding-top: 5%;
-}
-
-.sidebar, .sidebar-right {
-  background: #1A171E;
-  width: 10%;
-  padding: 20px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  padding-top: 5%;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar li {
-  margin: 15px 0;
-}
-
-.sidebar li a {
-  text-decoration: none;
-  color: #6F6E74;
-  border: none;
-  cursor: pointer;
-}
-
-.menu, .library {
-  border-bottom: #6F6E74 1px solid;
 }
 
 main {
@@ -190,22 +146,27 @@ main::-webkit-scrollbar {
   color: #6F6E74;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  background: #1A171E;
-  color: #6F6E74;
-  text-align: left;
-  margin: auto 0 0;
-}
-
 .movie-list {
   display: flex;
   flex-direction: row;
   gap: 10px;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+.search-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 500px);
+  gap: 10px;
+}
+
+button {
+  cursor: pointer;
+  background: #85818a;
+  color: white;
+  text-align: left;
+  font-size: large;
+  margin: 5px 0 0;
 }
 
 </style>
