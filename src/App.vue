@@ -14,17 +14,20 @@ export default defineComponent({
     const profile = ref({})
     const genres = ref([])
 
-    const cancel = () => {
-      store.clearSearch()
-    }
-
     onMounted(async () => {
-      const genresResponse = await apiClient.get(`https://api.themoviedb.org/3/genre/movie/list?language=en}`);
-      console.log(genresResponse)
-      genres.value = genresResponse.data.genres;
+      store.loaders.user = true;
+      try {
+        const genresResponse = await apiClient.get(`https://api.themoviedb.org/3/genre/movie/list?language=en}`);
+        console.log(genresResponse)
+        genres.value = genresResponse.data.genres;
 
-      const profileResponse = await axios.get("https://dummyjson.com/users/1");
-      profile.value = profileResponse.data;
+        const profileResponse = await axios.get("https://dummyjson.com/users/1");
+        profile.value = profileResponse.data;
+      } catch (error) {
+        console.log(error)
+      } finally {
+        store.loaders.user = false;
+      }
     })
 
     store.getMovies();
@@ -33,7 +36,6 @@ export default defineComponent({
       store,
       profile,
       genres,
-      cancel
     }
   }
 })
@@ -42,9 +44,30 @@ export default defineComponent({
 <template>
   <div class="page">
     <LeftSidebar/>
-    <main v-if="store.results.length">
+    <main v-if="store.loaders.main">
       <div class="top-bar">
-        <button @click="cancel" class="button">Cancel Search</button>
+        <ul>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Series</a></li>
+          <li><a href="#">TV Shows</a></li>
+        </ul>
+      </div>
+      <section class="trending">
+        <h2>Trending Movies</h2>
+          <v-skeleton-loader type="list-item, card"/>
+      </section>
+      <section class="top">
+        <h2>Top Rated</h2>
+          <v-skeleton-loader type="list-item, card"/>
+      </section>
+    </main>
+    <main v-else-if="store.results.length">
+      <div class="top-bar">
+        <ul>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Series</a></li>
+          <li><a href="#">TV Shows</a></li>
+        </ul>
       </div>
       <div class="search-list">
         <film-card v-for="(movie, index) in store.results"
@@ -81,7 +104,7 @@ export default defineComponent({
         </div>
       </section>
       <section class="top">
-        <h2>Top Rated</h2>
+        <h2>Latest</h2>
         <div class="movie-list">
           <film-card v-for="(movie, index) in store.topRated"
                      :key="index"
@@ -158,15 +181,6 @@ main::-webkit-scrollbar {
   display: grid;
   grid-template-columns: repeat(auto-fit, 500px);
   gap: 10px;
-}
-
-button {
-  cursor: pointer;
-  background: #85818a;
-  color: white;
-  text-align: left;
-  font-size: large;
-  margin: 5px 0 0;
 }
 
 </style>

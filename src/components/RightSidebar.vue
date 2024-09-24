@@ -32,26 +32,36 @@ export default {
 
 <template>
   <aside class="sidebar-right">
-    <div class="profile-data">
+    <div v-if="store.loaders.user" class="profile">
+      <v-skeleton-loader type="avatar"/>
+    </div>
+    <div v-else class="profile">
       <img :src="profile.image" alt="Profile picture">
-      <p class="profile-name"> {{ profile.firstName }} {{ profile.lastName }}</p>
-      <p class="profile-email"> {{ profile.email }}</p>
+      <div class="profile-data">
+        <p class="profile-name"> {{ profile.firstName }} {{ profile.lastName }}</p>
+        <p class="profile-email"> {{ profile.email }}</p>
+      </div>
     </div>
 
     <div class="search">
-      <input type="text" v-model="store.input" @input="search" placeholder="Search film..."/>
+      <input type="text" v-model="store.input" @input="search" placeholder="Search movies"/>
     </div>
 
-    <div class="genres">
-      <ul>
-        <li v-for="genre in genres"
-            :key="genre.id"
-            :class="{active: isActive(genre.id)}"
-            @click="choose(genre.id)"
+    <div v-if="store.loaders.user" class="genres">
+      <v-skeleton-loader type="list-item"/>
+    </div>
+    <div v-else class="genres">
+      <span class="title">genre</span>
+      <div class="list">
+        <div v-for="genre in genres"
+             :key="genre.id"
+             :class="{active: isActive(genre.id)}"
+             @click="choose(genre.id)"
         >
           {{ genre.name }}
-        </li>
-      </ul>
+<!--          <span v-if="isActive(genre.id)">✔</span><span v-else>+</span>-->
+        </div>
+      </div>
     </div>
 
   </aside>
@@ -60,45 +70,80 @@ export default {
 <style scoped>
 .sidebar-right {
   background: #1A171E;
-  width: 10%;
+  width: 15%;
   padding: 20px;
 }
 
-.genres ul {
-  list-style: none;
-  padding: 0;
+.genres {
+  color: #b4b3b7;
 }
 
-.genres li {
+.genres .title {
+  font-size: xx-small;
+  text-transform: uppercase;
+}
+
+.genres .list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.genres .list div {
+  background-color: #0D0D0F;
+  border-radius: 20px;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-.genres .active {
-  font-weight: bold;
-  background: #512764;
+.genres .list div span {
+  padding-left: 3px;
 }
 
-.profile-data img {
+.genres .list .active {
+  background: red;
+  color: white;
+}
+
+.profile {
+  display: flex;
+}
+
+.profile img {
   width: 30px;
   border-radius: 50%;
-}
-
-.profile-data {
-  border-bottom: #6F6E74 1px solid;
-  padding-bottom: 5px;
+  padding-right: 5px;
 }
 
 .profile-data p, .profile-data img {
   margin: 0;
   padding: 0;
+  font-size: small;
 }
 
 .profile-data .profile-email {
   font-size: x-small;
+  color: #b4b3b7;
 }
 
 .search input {
-  width: 95%;
+  border: none;
+  width: 100%;
+  border-radius: 15px;
+  background: #0D0D0F url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png') no-repeat 5% center;
+  background-size: 25px;
+  padding: 10px 2px 10px 40px;
+  font-size: x-small;
+  color: #b4b3b7;
+}
+
+.search {
+  margin: 10px 0;
 }
 
 </style>
