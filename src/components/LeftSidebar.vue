@@ -11,7 +11,9 @@ export default {
   <aside class="sidebar">
     <div class="menu">
       <ul>
-        <li><a href="#">Home</a></li>
+        <li>
+          <RouterLink class="link" to="/">Home</RouterLink>
+        </li>
         <li><a href="#">Discovery</a></li>
         <li><a href="#">Community</a></li>
         <li><a href="#">Coming soon</a></li>
@@ -61,7 +63,7 @@ export default {
   margin: 15px 0;
 }
 
-.sidebar li a {
+.sidebar li a, .sidebar li .link {
   text-decoration: none;
   color: #6F6E74;
   border: none;

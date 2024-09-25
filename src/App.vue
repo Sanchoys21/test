@@ -1,14 +1,13 @@
 <script>
 import {defineComponent, onMounted, ref} from "vue";
-import FilmCard from "@/components/Film-card.vue";
-import axios from "axios";
 import LeftSidebar from "@/components/LeftSidebar.vue";
 import RightSidebar from "@/components/RightSidebar.vue";
 import {useMovieStore} from "@/stores/movies.js";
 import apiClient from "@/plugins/apiClient.js";
+import axios from "axios";
 
 export default defineComponent({
-  components: {RightSidebar, LeftSidebar, FilmCard},
+  components: {RightSidebar, LeftSidebar},
   setup() {
     const store = useMovieStore();
     const profile = ref({})
@@ -24,7 +23,8 @@ export default defineComponent({
         const profileResponse = await axios.get("https://dummyjson.com/users/1");
         profile.value = profileResponse.data;
       } catch (error) {
-        console.log(error)
+        console.log("error")
+        await store.goToErrorPage();
       } finally {
         store.loaders.user = false;
       }
@@ -44,94 +44,7 @@ export default defineComponent({
 <template>
   <div class="page">
     <LeftSidebar/>
-    <main v-if="store.loaders.main">
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
-      </div>
-      <section class="trending">
-        <h2>Trending Movies</h2>
-          <v-skeleton-loader type="list-item, card"/>
-      </section>
-      <section class="top">
-        <h2>Top Rated</h2>
-          <v-skeleton-loader type="list-item, card"/>
-      </section>
-    </main>
-    <main v-else-if="store.results.length">
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
-      </div>
-      <div class="search-list">
-        <film-card v-for="(movie, index) in store.results"
-                   :key="index"
-                   :title="movie.title"
-                   :year="movie.release_date.split('-')[0]"
-                   :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                   :description="movie.overview"
-                   :rating="Math.round(movie.vote_average * 10) / 10"
-                   :size="`large`"
-        ></film-card>
-      </div>
-    </main>
-    <main v-else>
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
-      </div>
-      <section class="trending">
-        <h2>Trending Movies</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.trending"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-                     :size="`large`"
-          ></film-card>
-        </div>
-      </section>
-      <section class="top">
-        <h2>Latest</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.topRated"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-          ></film-card>
-        </div>
-      </section>
-      <!--      to check small size-->
-      <section class="trending">
-        <h2>Small size test</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.trending"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-                     :size="`small`"
-          ></film-card>
-        </div>
-      </section>
-    </main>
+    <RouterView/>
     <RightSidebar :profile="profile" :genres="genres"/>
   </div>
 </template>
@@ -144,43 +57,4 @@ export default defineComponent({
   height: 100vh;
   font-family: sans-serif;
 }
-
-main {
-  flex: 1;
-  padding: 0 20px 20px;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-main::-webkit-scrollbar {
-  display: none;
-}
-
-.top-bar ul {
-  display: flex;
-  list-style: none;
-  gap: 40px;
-  padding: 0;
-}
-
-.top-bar ul li a {
-  text-decoration: none;
-  color: #6F6E74;
-}
-
-.movie-list {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.search-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 500px);
-  gap: 10px;
-}
-
 </style>

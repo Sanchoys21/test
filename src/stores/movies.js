@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import apiClient from "@/plugins/apiClient.js";
+import router from "@/router.js";
 
 export const useMovieStore = defineStore('Movies', {
     state: () => ({
@@ -27,6 +28,7 @@ export const useMovieStore = defineStore('Movies', {
                 this.topRated = topRatedData.data.results
             } catch (error) {
                 console.log('error');
+                await this.goToErrorPage()
             } finally {
                 this.loaders.main = false;
             }
@@ -39,9 +41,9 @@ export const useMovieStore = defineStore('Movies', {
                 try {
                     const searchResponse = await apiClient.get(`https://api.themoviedb.org/3/search/movie?query=${this.input}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc`)
                     this.results = searchResponse.data.results;
-                    // console.log(searchResponse.data.results);
                 } catch (error) {
                     console.log('error');
+                    await this.goToErrorPage()
                 } finally {
                     this.loaders.main = false;
                 }
@@ -84,11 +86,15 @@ export const useMovieStore = defineStore('Movies', {
                     // console.log(searchResponse.data.results);
                 } catch (error) {
                     console.log('error');
+                    await this.goToErrorPage();
                 } finally {
                     this.loaders.main = false;
                 }
             }
 
+        },
+        goToErrorPage() {
+            router.push("/error");
         }
     }
 })
