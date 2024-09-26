@@ -9,6 +9,7 @@ export const useMovieStore = defineStore('Movies', {
         genres: [],
         trending: [],
         topRated: [],
+        error: "",
 
         loaders: {
             main: false,
@@ -28,7 +29,7 @@ export const useMovieStore = defineStore('Movies', {
                 this.topRated = topRatedData.data.results
             } catch (error) {
                 console.log('error');
-                await this.goToErrorPage()
+                await this.goToErrorPage(error)
             } finally {
                 this.loaders.main = false;
             }
@@ -43,7 +44,7 @@ export const useMovieStore = defineStore('Movies', {
                     this.results = searchResponse.data.results;
                 } catch (error) {
                     console.log('error');
-                    await this.goToErrorPage()
+                    await this.goToErrorPage(error)
                 } finally {
                     this.loaders.main = false;
                 }
@@ -86,15 +87,18 @@ export const useMovieStore = defineStore('Movies', {
                     // console.log(searchResponse.data.results);
                 } catch (error) {
                     console.log('error');
-                    await this.goToErrorPage();
+                    await this.goToErrorPage(error);
                 } finally {
                     this.loaders.main = false;
                 }
             }
 
         },
-        goToErrorPage() {
+        goToErrorPage(error) {
             router.push("/error");
+            this.error = error;
         }
+
+
     }
 })

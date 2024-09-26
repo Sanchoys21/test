@@ -33,6 +33,21 @@ export default {
 .card {
   flex: 0 0 auto;
   position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #6F6E74;
+  }
+  50% {
+    background-color: #414044;
+  }
+  100% {
+    background-color: #6F6E74;
+  }
 }
 
 .large {
@@ -47,7 +62,8 @@ export default {
 }
 
 .small {
-  overflow: hidden;
+  width: 125px;
+  height: 125px;
   font-size: small;
 }
 
@@ -59,7 +75,6 @@ export default {
 
 .small img {
   width: 125px;
-  height: 125px;
   object-fit: cover;
 }
 

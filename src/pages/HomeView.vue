@@ -8,7 +8,6 @@ export default defineComponent({
   setup() {
     const store = useMovieStore();
     store.getMovies();
-
     return {
       store,
     }
@@ -17,33 +16,63 @@ export default defineComponent({
 </script>
 
 <template>
-    <main v-if="store.loaders.main">
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
+  <main v-if="store.loaders.main">
+    <div class="top-bar">
+      <ul>
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="#">TV Shows</a></li>
+      </ul>
+    </div>
+    <section class="trending">
+      <h2>Trending Movies</h2>
+      <div class="movie-list">
+        <v-col v-for="n in 10" cols="12" md="6">
+          <v-skeleton-loader color="#0D0D0F" max-width="500" type="list-item, card"/>
+        </v-col>
       </div>
-      <section class="trending">
-        <h2>Trending Movies</h2>
-        <v-skeleton-loader type="list-item, card"/>
-      </section>
-      <section class="top">
-        <h2>Top Rated</h2>
-        <v-skeleton-loader type="list-item, card"/>
-      </section>
-    </main>
-    <main v-else-if="store.results.length">
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
+    </section>
+    <section class="top">
+      <h2>Top Rated</h2>
+      <div class="movie-list">
+        <v-col v-for="n in 10">
+          <v-skeleton-loader color="#0D0D0F" width="250" height="140" type="list-item, card"/>
+        </v-col>
       </div>
-      <div class="search-list">
-        <film-card v-for="(movie, index) in store.results"
+    </section>
+  </main>
+  <main v-else-if="store.results.length">
+    <div class="top-bar">
+      <ul>
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="#">TV Shows</a></li>
+      </ul>
+    </div>
+    <div class="search-list">
+      <film-card v-for="(movie, index) in store.results"
+                 :key="index"
+                 :title="movie.title"
+                 :year="movie.release_date.split('-')[0]"
+                 :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                 :description="movie.overview"
+                 :rating="Math.round(movie.vote_average * 10) / 10"
+                 :size="`large`"
+      ></film-card>
+    </div>
+  </main>
+  <main v-else>
+    <div class="top-bar">
+      <ul>
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Series</a></li>
+        <li><a href="#">TV Shows</a></li>
+      </ul>
+    </div>
+    <section class="trending">
+      <h2>Trending Movies</h2>
+      <div class="movie-list">
+        <film-card v-for="(movie, index) in store.trending"
                    :key="index"
                    :title="movie.title"
                    :year="movie.release_date.split('-')[0]"
@@ -53,58 +82,36 @@ export default defineComponent({
                    :size="`large`"
         ></film-card>
       </div>
-    </main>
-    <main v-else>
-      <div class="top-bar">
-        <ul>
-          <li><a href="#">Movies</a></li>
-          <li><a href="#">Series</a></li>
-          <li><a href="#">TV Shows</a></li>
-        </ul>
+    </section>
+    <section class="top">
+      <h2>Latest</h2>
+      <div class="movie-list">
+        <film-card v-for="(movie, index) in store.topRated"
+                   :key="index"
+                   :title="movie.title"
+                   :year="movie.release_date.split('-')[0]"
+                   :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                   :description="movie.overview"
+                   :rating="Math.round(movie.vote_average * 10) / 10"
+        ></film-card>
       </div>
-      <section class="trending">
-        <h2>Trending Movies</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.trending"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-                     :size="`large`"
-          ></film-card>
-        </div>
-      </section>
-      <section class="top">
-        <h2>Latest</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.topRated"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-          ></film-card>
-        </div>
-      </section>
-      <!--      to check small size-->
-      <section class="trending">
-        <h2>Small size test</h2>
-        <div class="movie-list">
-          <film-card v-for="(movie, index) in store.trending"
-                     :key="index"
-                     :title="movie.title"
-                     :year="movie.release_date.split('-')[0]"
-                     :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
-                     :description="movie.overview"
-                     :rating="Math.round(movie.vote_average * 10) / 10"
-                     :size="`small`"
-          ></film-card>
-        </div>
-      </section>
-    </main>
+    </section>
+    <!--      to check small size-->
+    <section class="trending">
+      <h2>Small size test</h2>
+      <div class="movie-list">
+        <film-card v-for="(movie, index) in store.trending"
+                   :key="index"
+                   :title="movie.title"
+                   :year="movie.release_date.split('-')[0]"
+                   :image="`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`"
+                   :description="movie.overview"
+                   :rating="Math.round(movie.vote_average * 10) / 10"
+                   :size="`small`"
+        ></film-card>
+      </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>

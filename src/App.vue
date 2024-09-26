@@ -24,7 +24,7 @@ export default defineComponent({
         profile.value = profileResponse.data;
       } catch (error) {
         console.log("error")
-        await store.goToErrorPage();
+        await store.goToErrorPage(error);
       } finally {
         store.loaders.user = false;
       }

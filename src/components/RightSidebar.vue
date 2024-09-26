@@ -33,7 +33,7 @@ export default {
 <template>
   <aside class="sidebar-right">
     <div v-if="store.loaders.user" class="profile">
-      <v-skeleton-loader type="avatar"/>
+      <v-skeleton-loader color="#0D0D0F" type="avatar"/>
     </div>
     <div v-else class="profile">
       <img :src="profile.image" alt="Profile picture">
@@ -48,7 +48,7 @@ export default {
     </div>
 
     <div v-if="store.loaders.user" class="genres">
-      <v-skeleton-loader type="list-item"/>
+      <v-skeleton-loader color="#0D0D0F" type="list-item"/>
     </div>
     <div v-else class="genres">
       <span class="title">genre</span>
