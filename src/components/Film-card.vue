@@ -1,4 +1,6 @@
 <script>
+import {useMovieStore} from "@/stores/movies.js";
+
 export default {
   name: "FilmCard",
   props: {
@@ -12,14 +14,54 @@ export default {
         return ['small', 'medium', 'large'].includes(value);
       },
       default: 'medium'
-    }
-  }
+    },
+  },
+  data() {
+    return {
+      isLoading: true,
+      imageDataUrl: null,
+    };
+  },
+  mounted() {
+    this.loadImage();
+  },
+  methods: {
+    async loadImage() {
+      try {
+        const store = useMovieStore();
+
+        if (this.image === null) {
+          this.isLoading = false;
+          return
+        }
+
+        const response = await fetch("https://image.tmdb.org/t/p/w500" + this.image);
+        if (!response.ok) {
+          store.goToErrorPage(response.status)
+        }
+
+        const blob = await response.blob();
+        this.imageDataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(blob);
+        });
+      } catch (error) {
+        store.goToErrorPage(error)
+      } finally {
+        this.isLoading = false;
+      }
+    },
+  },
 }
 </script>
 
 <template>
   <div class="card" :class="size">
-    <img :src="image" alt="poster"/>
+    <div class="loader" v-if="isLoading">
+    </div>
+    <img v-if="!isLoading" :src="imageDataUrl" alt="poster"/>
     <div class="content">
       <h3 class="title">{{ title }}</h3>
       <p class="year">{{ year }}</p>
@@ -35,18 +77,25 @@ export default {
   position: relative;
   cursor: pointer;
   border-radius: 10px;
-  animation: pulse 3s infinite;
+}
+
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  animation: pulse 2s infinite;
+  border-radius: 10px;
 }
 
 @keyframes pulse {
   0% {
-    background-color: #6F6E74;
+    background-color: #0D0D0F;
   }
   50% {
     background-color: #414044;
   }
   100% {
-    background-color: #6F6E74;
+    background-color: #0D0D0F;
   }
 }
 
