@@ -2,6 +2,35 @@ import {defineStore} from 'pinia'
 import apiClient from "@/plugins/apiClient.js";
 import router from "@/router.js";
 
+export class AsyncLock {
+    constructor(immediate = false) {
+        this.resolve = undefined
+        this.reject = undefined
+        this.promise = undefined
+
+        if (immediate) {
+            this.enable()
+        }
+    }
+
+
+    enable() {
+        this.promise = new Promise((resolve, reject) => {
+            this.resolve = resolve
+            this.reject = reject
+        })
+    }
+
+    disable() {
+        if (this.resolve) {
+            this.resolve();
+            this.resolve = undefined
+            this.reject = undefined
+            this.promise = undefined
+        }
+    }
+}
+
 export const useMovieStore = defineStore('Movies', {
     state: () => ({
         input: "",
@@ -10,6 +39,10 @@ export const useMovieStore = defineStore('Movies', {
         trending: [],
         topRated: [],
         error: "",
+        profile: null,
+        isAuthorised: false,
+        isLogin: false,
+        lock: new AsyncLock(),
 
         loaders: {
             main: false,
@@ -97,8 +130,28 @@ export const useMovieStore = defineStore('Movies', {
         goToErrorPage(error) {
             router.push("/error");
             this.error = error;
-        }
+        },
+        async login(username, password) {
+            try {
+                const response = await fetch('https://dummyjson.com/auth/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
 
+                        username: username,
+                        password: password,
+                    }),
+                });
 
+                if (!response.ok) {
+                    this.goToErrorPage(response.status);
+                }
+
+                this.profile = await response.json();
+                this.isAuthorised = true;
+            } catch (error) {
+                this.goToErrorPage(error);
+            }
+        },
     }
 })

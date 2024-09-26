@@ -1,6 +1,17 @@
 <script>
+import {useMovieStore} from "@/stores/movies.js";
+
 export default {
   name: "LeftSidebar",
+  methods: {
+    openLogin() {
+      const store = useMovieStore();
+      store.isLogin = true;
+    },
+    isAuthorised() {
+      return useMovieStore().isAuthorised;
+    }
+  },
 }
 </script>
 
@@ -33,7 +44,9 @@ export default {
         <li><a href="#">Help</a></li>
       </ul>
     </div>
-    <button class="logout">Logout</button>
+    <button v-if="!isAuthorised()" @click="openLogin">Login</button>
+<!--    <button v-else @click="logout">Logout</button>-->
+    <button v-else>Logout</button>
   </aside>
 </template>
 

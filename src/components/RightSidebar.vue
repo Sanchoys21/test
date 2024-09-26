@@ -35,7 +35,7 @@ export default {
     <div v-if="store.loaders.user" class="profile">
       <v-skeleton-loader color="#0D0D0F" type="avatar"/>
     </div>
-    <div v-else class="profile">
+    <div v-else-if="profile" class="profile">
       <img :src="profile.image" alt="Profile picture">
       <div class="profile-data">
         <p class="profile-name"> {{ profile.firstName }} {{ profile.lastName }}</p>
