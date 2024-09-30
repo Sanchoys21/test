@@ -1,7 +1,7 @@
 <script>
 
-import {useMovieStore} from "@/stores/movies.js";
 import Modal from "@/components/Modal.vue";
+import {useUserStore} from "@/stores/user.js";
 
 export default {
   components: {Modal},
@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     async login() {
-      const store = useMovieStore();
+      const store = useUserStore();
       try {
         await store.login(this.username, this.password);
         store.isLogin = false;
@@ -22,11 +22,12 @@ export default {
       }
     },
     close() {
-      const store = useMovieStore();
+      const store = useUserStore();
       store.isLogin = false;
     },
     isVisible() {
-      return useMovieStore().isLogin;
+      const store = useUserStore();
+      return store.isLogin;
     }
   }
 }

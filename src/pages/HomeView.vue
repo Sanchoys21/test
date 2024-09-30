@@ -2,14 +2,17 @@
 import {defineComponent} from "vue";
 import FilmCard from "@/components/Film-card.vue";
 import {useMovieStore} from "@/stores/movies.js";
+import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
   components: {FilmCard},
   setup() {
     const store = useMovieStore();
+    const user = useUserStore();
     store.getMovies();
     return {
       store,
+      user
     }
   }
 })
@@ -100,7 +103,7 @@ export default defineComponent({
     <section class="extra">
       <h2>German</h2>
       <div class="movie-list">
-        <p v-if="!store.isAuthorised">Visible only for Authorised users</p>
+        <p v-if="!user.isAuthorised">Visible only for Authorised users</p>
         <film-card v-for="(movie, index) in store.austrian"
                    :key="index"
                    :title="movie.title"

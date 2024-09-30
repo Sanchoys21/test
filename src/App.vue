@@ -5,8 +5,10 @@ import RightSidebar from "@/components/RightSidebar.vue";
 import Login from "@/components/Login.vue";
 import {useMovieStore} from "@/stores/movies.js";
 import apiClient from "@/plugins/apiClient.js";
+import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
+  methods: {useUserStore},
   components: {Login, RightSidebar, LeftSidebar},
   setup() {
     const store = useMovieStore();
@@ -38,9 +40,9 @@ export default defineComponent({
 <template>
   <div class="page">
     <LeftSidebar/>
-    <Login v-if="store.isLogin"/>
+    <Login v-if="useUserStore().isLogin"/>
     <RouterView/>
-    <RightSidebar :profile="store.profile" :genres="genres"/>
+    <RightSidebar :profile="useUserStore().profile" :genres="genres"/>
   </div>
 </template>
 

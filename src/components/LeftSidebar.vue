@@ -1,15 +1,15 @@
 <script>
-import {useMovieStore} from "@/stores/movies.js";
+import {useUserStore} from "@/stores/user.js";
 
 export default {
   name: "LeftSidebar",
   methods: {
     openLogin() {
-      const store = useMovieStore();
+      const store = useUserStore();
       store.isLogin = true;
     },
     isAuthorised() {
-      return useMovieStore().isAuthorised;
+      return useUserStore().isAuthorised;
     }
   },
 }

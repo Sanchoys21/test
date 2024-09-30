@@ -1,35 +1,7 @@
 import {defineStore} from 'pinia'
 import apiClient from "@/plugins/apiClient.js";
 import router from "@/router.js";
-
-export class AsyncLock {
-    constructor(immediate = false) {
-        this.resolve = undefined
-        this.reject = undefined
-        this.promise = undefined
-
-        if (immediate) {
-            this.enable()
-        }
-    }
-
-
-    enable() {
-        this.promise = new Promise((resolve, reject) => {
-            this.resolve = resolve
-            this.reject = reject
-        })
-    }
-
-    disable() {
-        if (this.resolve) {
-            this.resolve();
-            this.resolve = undefined
-            this.reject = undefined
-            this.promise = undefined
-        }
-    }
-}
+import {useUserStore} from "@/stores/user.js";
 
 export const useMovieStore = defineStore('Movies', {
     state: () => ({
@@ -40,10 +12,6 @@ export const useMovieStore = defineStore('Movies', {
         austrian: [],
         topRated: [],
         error: "",
-        profile: null,
-        isAuthorised: false,
-        isLogin: false,
-        lock: new AsyncLock(),
 
         loaders: {
             main: false,
@@ -61,7 +29,6 @@ export const useMovieStore = defineStore('Movies', {
                 ])
                 this.trending = trendingData.data.results
                 this.topRated = topRatedData.data.results
-                this.lock.enable()
             } catch (error) {
                 console.log('error');
                 await this.goToErrorPage(error)
@@ -134,40 +101,14 @@ export const useMovieStore = defineStore('Movies', {
             router.push("/error");
             this.error = error;
         },
-        async login(username, password) {
-            try {
-                const response = await fetch('https://dummyjson.com/auth/login', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-
-                        username: username,
-                        password: password,
-                    }),
-                });
-
-                if (!response.ok) {
-                    this.goToErrorPage(response.status);
-                }
-
-                this.profile = await response.json();
-                this.isAuthorised = true;
-                this.lock.disable()
-            } catch (error) {
-                this.goToErrorPage(error);
-            }
-        },
         async getAustrian() {
-            console.log("in")
-            await this.lock.promise;
-            console.log("hin")
+            const user = useUserStore();
+            await user.lock.promise;
             this.loaders.main = true;
             try {
                 const result = await apiClient.get('/discover/movie?include_adult=false&include_video=false&page=1&sort_by=popularity.desc&with_original_language=de')
-                console.log(result.data.results)
                 this.austrian = result.data.results
             } catch (error) {
-                console.log('error');
                 await this.goToErrorPage(error)
             } finally {
                 this.loaders.main = false;
