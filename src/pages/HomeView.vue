@@ -97,9 +97,10 @@ export default defineComponent({
       </div>
     </section>
     <!--      to check small size-->
-    <section class="extra" v-if="store.isAuthorised">
+    <section class="extra">
       <h2>German</h2>
       <div class="movie-list">
+        <p v-if="!store.isAuthorised">Visible only for Authorised users</p>
         <film-card v-for="(movie, index) in store.austrian"
                    :key="index"
                    :title="movie.title"

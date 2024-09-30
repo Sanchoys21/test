@@ -61,12 +61,12 @@ export const useMovieStore = defineStore('Movies', {
                 ])
                 this.trending = trendingData.data.results
                 this.topRated = topRatedData.data.results
+                this.lock.enable()
             } catch (error) {
                 console.log('error');
                 await this.goToErrorPage(error)
             } finally {
                 this.loaders.main = false;
-                this.lock.enable()
                 await this.getAustrian();
             }
         },
@@ -83,7 +83,6 @@ export const useMovieStore = defineStore('Movies', {
                     await this.goToErrorPage(error)
                 } finally {
                     this.loaders.main = false;
-                    this.lock.disable();
                 }
             }
         },
@@ -153,14 +152,14 @@ export const useMovieStore = defineStore('Movies', {
 
                 this.profile = await response.json();
                 this.isAuthorised = true;
-                await this.getAustrian();
+                this.lock.disable()
             } catch (error) {
                 this.goToErrorPage(error);
             }
         },
         async getAustrian() {
             console.log("in")
-            await this.lock.enable();
+            await this.lock.promise;
             console.log("hin")
             this.loaders.main = true;
             try {
