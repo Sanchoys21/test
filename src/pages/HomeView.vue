@@ -97,17 +97,16 @@ export default defineComponent({
       </div>
     </section>
     <!--      to check small size-->
-    <section class="trending">
-      <h2>Small size test</h2>
+    <section class="extra" v-if="store.isAuthorised">
+      <h2>German</h2>
       <div class="movie-list">
-        <film-card v-for="(movie, index) in store.trending"
+        <film-card v-for="(movie, index) in store.austrian"
                    :key="index"
                    :title="movie.title"
                    :year="movie.release_date.split('-')[0]"
                    :image="movie.backdrop_path"
                    :description="movie.overview"
                    :rating="Math.round(movie.vote_average * 10) / 10"
-                   :size="`small`"
         ></film-card>
       </div>
     </section>

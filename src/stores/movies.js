@@ -37,6 +37,7 @@ export const useMovieStore = defineStore('Movies', {
         results: [],
         genres: [],
         trending: [],
+        austrian: [],
         topRated: [],
         error: "",
         profile: null,
@@ -65,6 +66,8 @@ export const useMovieStore = defineStore('Movies', {
                 await this.goToErrorPage(error)
             } finally {
                 this.loaders.main = false;
+                this.lock.enable()
+                await this.getAustrian();
             }
         },
         async searchMovies() {
@@ -80,6 +83,7 @@ export const useMovieStore = defineStore('Movies', {
                     await this.goToErrorPage(error)
                 } finally {
                     this.loaders.main = false;
+                    this.lock.disable();
                 }
             }
         },
@@ -149,9 +153,26 @@ export const useMovieStore = defineStore('Movies', {
 
                 this.profile = await response.json();
                 this.isAuthorised = true;
+                await this.getAustrian();
             } catch (error) {
                 this.goToErrorPage(error);
             }
         },
-    }
+        async getAustrian() {
+            console.log("in")
+            await this.lock.enable();
+            console.log("hin")
+            this.loaders.main = true;
+            try {
+                const result = await apiClient.get('/discover/movie?include_adult=false&include_video=false&page=1&sort_by=popularity.desc&with_original_language=de')
+                console.log(result.data.results)
+                this.austrian = result.data.results
+            } catch (error) {
+                console.log('error');
+                await this.goToErrorPage(error)
+            } finally {
+                this.loaders.main = false;
+            }
+        }
+    },
 })
