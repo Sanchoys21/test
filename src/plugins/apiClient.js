@@ -6,7 +6,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(config => {
-    const token = import.meta.env.VITE_API_TOKEN;
+    const token = process.env.VITE_API_TOKEN;
     console.log(token.length)
 
     if (token) {
