@@ -1,5 +1,7 @@
 name: Build Vue
 on: [ push ]
+env:
+  VITE_API_TOKEN: ${{vars.VITE_API_TOKEN}}
 jobs:
   build_vue:
     permissions:
