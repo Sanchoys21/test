@@ -1,9 +1,9 @@
 name: Build Vue
 on: [ push ]
-env:
-  VITE_API_TOKEN: ${{vars.VITE_API_TOKEN}}
 jobs:
   build_vue:
+    env:
+      VITE_API_TOKEN: ${{vars.VITE_API_TOKEN}}
     permissions:
       contents: write
     runs-on: ubuntu-latest
