@@ -69,20 +69,23 @@ export const useMovieStore = defineStore('Movies', {
             } else {
                 this.loaders.main = true;
                 try {
-
-                    let query = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genres.at(0)}`
-                    let queryTwo = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genres.at(0)}`
+                    console.log(this.genres.at(0))
+                    let query = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genres.at(0)}`
+                    let queryTwo = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genres.at(0)}`
 
                     if (this.genres.length > 1) {
                         for (let i = 1; i < this.genres.length; i++) {
+                            console.log(this.genres.at(i))
                             query += `,${this.genres[i]}`
                             queryTwo += `,${this.genres[i]}`
                         }
                     }
+                    console.log(query)
                     const [trendingData, topRatedData] = await Promise.all([
                         apiClient.get(query),
                         apiClient.get(queryTwo)
                     ])
+                    console.log(trendingData.data.results)
                     this.trending = trendingData.data.results
                     this.topRated = topRatedData.data.results
                     // const searchResponse = await apiClient.get(query)
