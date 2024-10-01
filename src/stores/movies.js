@@ -25,7 +25,7 @@ export const useMovieStore = defineStore('Movies', {
             try {
                 const [trendingData, topRatedData] = await Promise.all([
                     apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'),
-                    apiClient.get('discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200')
+                    apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200')
                 ])
                 this.trending = trendingData.data.results
                 this.topRated = topRatedData.data.results
@@ -43,7 +43,7 @@ export const useMovieStore = defineStore('Movies', {
             } else {
                 this.loaders.main = true;
                 try {
-                    const searchResponse = await apiClient.get(`https://api.themoviedb.org/3/search/movie?query=${this.input}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc`)
+                    const searchResponse = await apiClient.get(`/search/movie?query=${this.input}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc`)
                     this.results = searchResponse.data.results;
                 } catch (error) {
                     console.log('error');
