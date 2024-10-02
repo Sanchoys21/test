@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Vue
     steps:
-      - env:
-          VITE_API_TOKEN: ${{ secrets.VITE_API_TOKEN }}
       - uses: actions/checkout@v2
       - id: Build-Vue
+        env:
+          VITE_API_TOKEN: ${{ secrets.VITE_API_TOKEN }}
         uses: xRealNeon/VuePagesAction@1.0.1
         with:
           username: 'Sanchoys21'
