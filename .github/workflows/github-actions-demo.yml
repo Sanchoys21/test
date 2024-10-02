@@ -8,8 +8,7 @@ jobs:
     name: Build Vue
     steps:
       - env:
-          VITE_API_TOKEN:
-            ${{ secrets.VITE_API_TOKEN }}
+          VITE_API_TOKEN: ${{ secrets.VITE_API_TOKEN }}
         uses: actions/checkout@v3
       - id: Build-Vue
         uses: xRealNeon/VuePagesAction@1.0.1
