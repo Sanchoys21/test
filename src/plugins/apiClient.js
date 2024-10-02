@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(config => {
     const token = import.meta.env.VITE_API_TOKEN;
-    console.log(token.length)
+    // console.log(token.length)
 
     if (token) {
         // Add Authorization header to every request
