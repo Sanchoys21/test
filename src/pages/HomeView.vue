@@ -27,23 +27,22 @@ export default defineComponent({
         <li><a href="#">TV Shows</a></li>
       </ul>
     </div>
+
     <section class="trending">
       <h2>Trending Movies</h2>
       <div class="movie-list">
-        <v-col v-for="n in 10" cols="12" md="6">
-          <v-skeleton-loader color="#0D0D0F" max-width="500" type="list-item, card"/>
-        </v-col>
+        <div v-for="n in 10" :key="n" class="loader"></div>
       </div>
     </section>
+
     <section class="top">
       <h2>Top Rated</h2>
       <div class="movie-list">
-        <v-col v-for="n in 10">
-          <v-skeleton-loader color="#0D0D0F" width="250" height="140" type="list-item, card"/>
-        </v-col>
+        <div v-for="n in 10" :key="n" class="loader"></div>
       </div>
     </section>
   </main>
+
   <main v-else-if="store.results.length">
     <div class="top-bar">
       <ul>
@@ -52,6 +51,7 @@ export default defineComponent({
         <li><a href="#">TV Shows</a></li>
       </ul>
     </div>
+
     <div class="search-list">
       <film-card v-for="(movie, index) in store.results"
                  :key="index"
@@ -64,6 +64,7 @@ export default defineComponent({
       ></film-card>
     </div>
   </main>
+
   <main v-else>
     <div class="top-bar">
       <ul>
@@ -72,6 +73,7 @@ export default defineComponent({
         <li><a href="#">TV Shows</a></li>
       </ul>
     </div>
+
     <section class="trending">
       <h2>Trending Movies</h2>
       <div class="movie-list">
@@ -86,6 +88,7 @@ export default defineComponent({
         ></film-card>
       </div>
     </section>
+
     <section class="top">
       <h2>Latest</h2>
       <div class="movie-list">
@@ -99,7 +102,7 @@ export default defineComponent({
         ></film-card>
       </div>
     </section>
-    <!--      to check small size-->
+
     <section class="extra">
       <h2>German</h2>
       <div class="movie-list">
@@ -154,6 +157,27 @@ main::-webkit-scrollbar {
   display: grid;
   grid-template-columns: repeat(auto-fit, 500px);
   gap: 10px;
+}
+
+.loader {
+  flex: 0 0 auto;
+  position: relative;
+  width: 500px;
+  height: 281px;
+  animation: pulse 2s infinite;
+  border-radius: 10px;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #0D0D0F;
+  }
+  50% {
+    background-color: #414044;
+  }
+  100% {
+    background-color: #0D0D0F;
+  }
 }
 
 </style>

@@ -33,7 +33,7 @@ export default {
 <template>
   <aside class="sidebar-right">
     <div v-if="store.loaders.user" class="profile">
-      <v-skeleton-loader color="#0D0D0F" type="avatar"/>
+      <div class="loader-profile"></div>
     </div>
     <div v-else-if="profile" class="profile">
       <img :src="profile.image" alt="Profile picture">
@@ -47,9 +47,7 @@ export default {
       <input type="text" v-model="store.input" @input="search" placeholder="Search movies"/>
     </div>
 
-    <div v-if="store.loaders.user" class="genres">
-      <v-skeleton-loader color="#0D0D0F" type="list-item"/>
-    </div>
+    <div v-if="store.loaders.user" class="loader-genres"></div>
     <div v-else class="genres">
       <span class="title">genre</span>
       <div class="list">
@@ -59,7 +57,7 @@ export default {
              @click="choose(genre.id)"
         >
           {{ genre.name }}
-<!--          <span v-if="isActive(genre.id)">✔</span><span v-else>+</span>-->
+          <!--          <span v-if="isActive(genre.id)">✔</span><span v-else>+</span>-->
         </div>
       </div>
     </div>
@@ -133,7 +131,7 @@ export default {
 
 .search input {
   border: none;
-  width: 100%;
+  width: 80%;
   border-radius: 15px;
   background: #0D0D0F url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png') no-repeat 5% center;
   background-size: 25px;
@@ -144,6 +142,31 @@ export default {
 
 .search {
   margin: 10px 0;
+}
+
+.loader-profile {
+  width: 100%;
+  height: 40px;
+  animation: pulse 2s infinite;
+  border-radius: 10px;
+}
+
+.loader-genres {
+  height: 80%;
+  animation: pulse 2s infinite;
+  border-radius: 10px;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #0D0D0F;
+  }
+  50% {
+    background-color: #414044;
+  }
+  100% {
+    background-color: #0D0D0F;
+  }
 }
 
 </style>
