@@ -1,10 +1,9 @@
 import { ssrRenderAttrs, ssrRenderAttr, ssrInterpolate, ssrRenderList, ssrRenderComponent, ssrRenderClass, ssrRenderSlot, renderToString } from "vue/server-renderer";
-import { mergeProps, useSSRContext, defineComponent, resolveComponent, withCtx, createVNode, createTextVNode, withModifiers, withDirectives, vModelText, ref, onMounted, createSSRApp } from "vue";
+import { mergeProps, useSSRContext, defineComponent, resolveComponent, withCtx, createTextVNode, createVNode, withModifiers, withDirectives, vModelText, ref, onMounted, createSSRApp } from "vue";
 import { defineStore, createPinia } from "pinia";
 import axios from "axios";
 import { createRouter, createMemoryHistory } from "vue-router";
 import _ from "lodash";
-import { createVuetify } from "vuetify";
 const apiClient = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   timeout: 1e4
@@ -108,64 +107,19 @@ const _sfc_main$6 = defineComponent({
   }
 });
 function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_v_col = resolveComponent("v-col");
-  const _component_v_skeleton_loader = resolveComponent("v-skeleton-loader");
   const _component_film_card = resolveComponent("film-card");
   if (_ctx.store.loaders.main) {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-47ff0fb1><div class="top-bar" data-v-47ff0fb1><ul data-v-47ff0fb1><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Movies</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Series</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>TV Shows</a></li></ul></div><section class="trending" data-v-47ff0fb1><h2 data-v-47ff0fb1>Trending Movies</h2><div class="movie-list" data-v-47ff0fb1><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><section class="trending" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Trending Movies</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
     ssrRenderList(10, (n) => {
-      _push(ssrRenderComponent(_component_v_col, {
-        cols: "12",
-        md: "6"
-      }, {
-        default: withCtx((_2, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(ssrRenderComponent(_component_v_skeleton_loader, {
-              color: "#0D0D0F",
-              "max-width": "500",
-              type: "list-item, card"
-            }, null, _parent2, _scopeId));
-          } else {
-            return [
-              createVNode(_component_v_skeleton_loader, {
-                color: "#0D0D0F",
-                "max-width": "500",
-                type: "list-item, card"
-              })
-            ];
-          }
-        }),
-        _: 2
-      }, _parent));
+      _push(`<div class="loader" data-v-8c7d8a8d></div>`);
     });
-    _push(`<!--]--></div></section><section class="top" data-v-47ff0fb1><h2 data-v-47ff0fb1>Top Rated</h2><div class="movie-list" data-v-47ff0fb1><!--[-->`);
+    _push(`<!--]--></div></section><section class="top" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Top Rated</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
     ssrRenderList(10, (n) => {
-      _push(ssrRenderComponent(_component_v_col, null, {
-        default: withCtx((_2, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(ssrRenderComponent(_component_v_skeleton_loader, {
-              color: "#0D0D0F",
-              width: "250",
-              height: "140",
-              type: "list-item, card"
-            }, null, _parent2, _scopeId));
-          } else {
-            return [
-              createVNode(_component_v_skeleton_loader, {
-                color: "#0D0D0F",
-                width: "250",
-                height: "140",
-                type: "list-item, card"
-              })
-            ];
-          }
-        }),
-        _: 2
-      }, _parent));
+      _push(`<div class="loader" data-v-8c7d8a8d></div>`);
     });
     _push(`<!--]--></div></section></main>`);
   } else if (_ctx.store.results.length) {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-47ff0fb1><div class="top-bar" data-v-47ff0fb1><ul data-v-47ff0fb1><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Movies</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Series</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>TV Shows</a></li></ul></div><div class="search-list" data-v-47ff0fb1><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><div class="search-list" data-v-8c7d8a8d><!--[-->`);
     ssrRenderList(_ctx.store.results, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -179,7 +133,7 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     });
     _push(`<!--]--></div></main>`);
   } else {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-47ff0fb1><div class="top-bar" data-v-47ff0fb1><ul data-v-47ff0fb1><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Movies</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>Series</a></li><li data-v-47ff0fb1><a href="#" data-v-47ff0fb1>TV Shows</a></li></ul></div><section class="trending" data-v-47ff0fb1><h2 data-v-47ff0fb1>Trending Movies</h2><div class="movie-list" data-v-47ff0fb1><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><section class="trending" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Trending Movies</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
     ssrRenderList(_ctx.store.trending, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -191,7 +145,7 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
         size: `large`
       }, null, _parent));
     });
-    _push(`<!--]--></div></section><section class="top" data-v-47ff0fb1><h2 data-v-47ff0fb1>Latest</h2><div class="movie-list" data-v-47ff0fb1><!--[-->`);
+    _push(`<!--]--></div></section><section class="top" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Latest</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
     ssrRenderList(_ctx.store.topRated, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -202,9 +156,9 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
         rating: Math.round(movie.vote_average * 10) / 10
       }, null, _parent));
     });
-    _push(`<!--]--></div></section><section class="extra" data-v-47ff0fb1><h2 data-v-47ff0fb1>German</h2><div class="movie-list" data-v-47ff0fb1>`);
+    _push(`<!--]--></div></section><section class="extra" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>German</h2><div class="movie-list" data-v-8c7d8a8d>`);
     if (!_ctx.user.isAuthorised) {
-      _push(`<p data-v-47ff0fb1>Visible only for Authorised users</p>`);
+      _push(`<p data-v-8c7d8a8d>Visible only for Authorised users</p>`);
     } else {
       _push(`<!---->`);
     }
@@ -228,7 +182,7 @@ _sfc_main$6.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/pages/HomeView.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const HomeView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-47ff0fb1"]]);
+const HomeView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-8c7d8a8d"]]);
 const _sfc_main$5 = defineComponent({
   name: "ErrorView",
   setup() {
@@ -508,32 +462,21 @@ const _sfc_main$3 = {
   }
 };
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_v_skeleton_loader = resolveComponent("v-skeleton-loader");
-  _push(`<aside${ssrRenderAttrs(mergeProps({ class: "sidebar-right" }, _attrs))} data-v-5a27818e>`);
+  _push(`<aside${ssrRenderAttrs(mergeProps({ class: "sidebar-right" }, _attrs))} data-v-7b5be482>`);
   if ($setup.store.loaders.user) {
-    _push(`<div class="profile" data-v-5a27818e>`);
-    _push(ssrRenderComponent(_component_v_skeleton_loader, {
-      color: "#0D0D0F",
-      type: "avatar"
-    }, null, _parent));
-    _push(`</div>`);
+    _push(`<div class="profile" data-v-7b5be482><div class="loader-profile" data-v-7b5be482></div></div>`);
   } else if ($props.profile) {
-    _push(`<div class="profile" data-v-5a27818e><img${ssrRenderAttr("src", $props.profile.image)} alt="Profile picture" data-v-5a27818e><div class="profile-data" data-v-5a27818e><p class="profile-name" data-v-5a27818e>${ssrInterpolate($props.profile.firstName)} ${ssrInterpolate($props.profile.lastName)}</p><p class="profile-email" data-v-5a27818e>${ssrInterpolate($props.profile.email)}</p></div></div>`);
+    _push(`<div class="profile" data-v-7b5be482><img${ssrRenderAttr("src", $props.profile.image)} alt="Profile picture" data-v-7b5be482><div class="profile-data" data-v-7b5be482><p class="profile-name" data-v-7b5be482>${ssrInterpolate($props.profile.firstName)} ${ssrInterpolate($props.profile.lastName)}</p><p class="profile-email" data-v-7b5be482>${ssrInterpolate($props.profile.email)}</p></div></div>`);
   } else {
     _push(`<!---->`);
   }
-  _push(`<div class="search" data-v-5a27818e><input type="text"${ssrRenderAttr("value", $setup.store.input)} placeholder="Search movies" data-v-5a27818e></div>`);
+  _push(`<div class="search" data-v-7b5be482><input type="text"${ssrRenderAttr("value", $setup.store.input)} placeholder="Search movies" data-v-7b5be482></div>`);
   if ($setup.store.loaders.user) {
-    _push(`<div class="genres" data-v-5a27818e>`);
-    _push(ssrRenderComponent(_component_v_skeleton_loader, {
-      color: "#0D0D0F",
-      type: "list-item"
-    }, null, _parent));
-    _push(`</div>`);
+    _push(`<div class="loader-genres" data-v-7b5be482></div>`);
   } else {
-    _push(`<div class="genres" data-v-5a27818e><span class="title" data-v-5a27818e>genre</span><div class="list" data-v-5a27818e><!--[-->`);
+    _push(`<div class="genres" data-v-7b5be482><span class="title" data-v-7b5be482>genre</span><div class="list" data-v-7b5be482><!--[-->`);
     ssrRenderList($props.genres, (genre) => {
-      _push(`<div class="${ssrRenderClass({ active: $setup.isActive(genre.id) })}" data-v-5a27818e>${ssrInterpolate(genre.name)}</div>`);
+      _push(`<div class="${ssrRenderClass({ active: $setup.isActive(genre.id) })}" data-v-7b5be482>${ssrInterpolate(genre.name)}</div>`);
     });
     _push(`<!--]--></div></div>`);
   }
@@ -545,7 +488,7 @@ _sfc_main$3.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/components/RightSidebar.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
-const RightSidebar = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-5a27818e"]]);
+const RightSidebar = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-7b5be482"]]);
 const _sfc_main$2 = {
   props: {
     isVisible: Boolean
@@ -701,12 +644,8 @@ _sfc_main.setup = (props, ctx) => {
 const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-cbf21640"]]);
 function createApp() {
   const app = createSSRApp(App);
-  const vuetify = createVuetify({
-    ssr: true
-  });
   app.use(createPinia());
   app.use(router);
-  app.use(vuetify);
   return { app };
 }
 async function render() {
