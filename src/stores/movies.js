@@ -22,19 +22,23 @@ export const useMovieStore = defineStore('Movies', {
     actions: {
         async getMovies() {
             this.loaders.main = true;
+            this.loaders.user = true;
+
             try {
-                const [trendingData, topRatedData] = await Promise.all([
+                const [trendingData, topRatedData, genresResponse] = await Promise.all([
                     apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'),
-                    apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200')
+                    apiClient.get('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200'),
+                    apiClient.get(`/genre/movie/list?language=en}`)
                 ])
                 this.trending = trendingData.data.results
                 this.topRated = topRatedData.data.results
+                this.genres = genresResponse.data.genres;
             } catch (error) {
                 console.log('error');
                 await this.goToErrorPage(error)
             } finally {
                 this.loaders.main = false;
-                await this.getAustrian();
+                this.loaders.user = false;
             }
         },
         async searchMovies() {

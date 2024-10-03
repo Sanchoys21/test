@@ -1,10 +1,9 @@
 <script>
-import {defineComponent, onMounted, ref} from "vue";
+import {defineComponent} from "vue";
 import LeftSidebar from "@/components/LeftSidebar.vue";
 import RightSidebar from "@/components/RightSidebar.vue";
 import Login from "@/components/Login.vue";
 import {useMovieStore} from "@/stores/movies.js";
-import apiClient from "@/plugins/apiClient.js";
 import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
@@ -12,26 +11,10 @@ export default defineComponent({
   components: {Login, RightSidebar, LeftSidebar},
   setup() {
     const store = useMovieStore();
-    const genres = ref([])
-
-    onMounted(async () => {
-      store.loaders.user = true;
-      try {
-        const genresResponse = await apiClient.get(`https://api.themoviedb.org/3/genre/movie/list?language=en}`);
-        // console.log(genresResponse)
-        genres.value = genresResponse.data.genres;
-      } catch (error) {
-        await store.goToErrorPage(error);
-      } finally {
-        store.loaders.user = false;
-      }
-    })
-
-    store.getMovies();
+    store.getAustrian();
 
     return {
       store,
-      genres,
     }
   }
 })
@@ -42,7 +25,7 @@ export default defineComponent({
     <LeftSidebar/>
     <Login v-if="useUserStore().isLogin"/>
     <RouterView/>
-    <RightSidebar :profile="useUserStore().profile" :genres="genres"/>
+    <RightSidebar :profile="useUserStore().profile" :genres="store.genres"/>
   </div>
 </template>
 

@@ -1,12 +1,17 @@
-import { createSSRApp } from 'vue'
+import {createSSRApp} from 'vue'
 import App from './App.vue'
 import {createPinia} from "pinia";
 import router from "@/router.js";
+import {useMovieStore} from "@/stores/movies.js";
 
-export function createApp() {
+export async function createApp() {
     const app = createSSRApp(App)
+    const pinia = createPinia();
 
-    app.use(createPinia())
+    app.use(pinia)
     app.use(router)
-    return { app }
+    const store = useMovieStore(pinia);
+    await store.getMovies();
+
+    return {app}
 }
