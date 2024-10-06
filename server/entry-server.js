@@ -1,5 +1,5 @@
 import { ssrRenderAttrs, ssrRenderAttr, ssrInterpolate, ssrRenderList, ssrRenderComponent, ssrRenderClass, ssrRenderSlot, renderToString } from "vue/server-renderer";
-import { mergeProps, useSSRContext, defineComponent, resolveComponent, withCtx, createTextVNode, createVNode, withModifiers, withDirectives, vModelText, ref, onMounted, createSSRApp } from "vue";
+import { mergeProps, useSSRContext, defineComponent, resolveComponent, withCtx, createTextVNode, createVNode, withModifiers, withDirectives, vModelText, createSSRApp } from "vue";
 import { defineStore, createPinia } from "pinia";
 import axios from "axios";
 import { createRouter, createMemoryHistory } from "vue-router";
@@ -99,7 +99,6 @@ const _sfc_main$6 = defineComponent({
   setup() {
     const store2 = useMovieStore();
     const user = useUserStore();
-    store2.getMovies();
     return {
       store: store2,
       user
@@ -109,17 +108,17 @@ const _sfc_main$6 = defineComponent({
 function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_film_card = resolveComponent("film-card");
   if (_ctx.store.loaders.main) {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><section class="trending" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Trending Movies</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-d307453a><div class="top-bar" data-v-d307453a><ul data-v-d307453a><li data-v-d307453a><a href="#" data-v-d307453a>Movies</a></li><li data-v-d307453a><a href="#" data-v-d307453a>Series</a></li><li data-v-d307453a><a href="#" data-v-d307453a>TV Shows</a></li></ul></div><section class="trending" data-v-d307453a><h2 data-v-d307453a>Trending Movies</h2><div class="movie-list" data-v-d307453a><!--[-->`);
     ssrRenderList(10, (n) => {
-      _push(`<div class="loader" data-v-8c7d8a8d></div>`);
+      _push(`<div class="loader" data-v-d307453a></div>`);
     });
-    _push(`<!--]--></div></section><section class="top" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Top Rated</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
+    _push(`<!--]--></div></section><section class="top" data-v-d307453a><h2 data-v-d307453a>Top Rated</h2><div class="movie-list" data-v-d307453a><!--[-->`);
     ssrRenderList(10, (n) => {
-      _push(`<div class="loader" data-v-8c7d8a8d></div>`);
+      _push(`<div class="loader" data-v-d307453a></div>`);
     });
     _push(`<!--]--></div></section></main>`);
   } else if (_ctx.store.results.length) {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><div class="search-list" data-v-8c7d8a8d><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-d307453a><div class="top-bar" data-v-d307453a><ul data-v-d307453a><li data-v-d307453a><a href="#" data-v-d307453a>Movies</a></li><li data-v-d307453a><a href="#" data-v-d307453a>Series</a></li><li data-v-d307453a><a href="#" data-v-d307453a>TV Shows</a></li></ul></div><div class="search-list" data-v-d307453a><!--[-->`);
     ssrRenderList(_ctx.store.results, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -133,7 +132,7 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     });
     _push(`<!--]--></div></main>`);
   } else {
-    _push(`<main${ssrRenderAttrs(_attrs)} data-v-8c7d8a8d><div class="top-bar" data-v-8c7d8a8d><ul data-v-8c7d8a8d><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Movies</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>Series</a></li><li data-v-8c7d8a8d><a href="#" data-v-8c7d8a8d>TV Shows</a></li></ul></div><section class="trending" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Trending Movies</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
+    _push(`<main${ssrRenderAttrs(_attrs)} data-v-d307453a><div class="top-bar" data-v-d307453a><ul data-v-d307453a><li data-v-d307453a><a href="#" data-v-d307453a>Movies</a></li><li data-v-d307453a><a href="#" data-v-d307453a>Series</a></li><li data-v-d307453a><a href="#" data-v-d307453a>TV Shows</a></li></ul></div><section class="trending" data-v-d307453a><h2 data-v-d307453a>Trending Movies</h2><div class="movie-list" data-v-d307453a><!--[-->`);
     ssrRenderList(_ctx.store.trending, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -145,7 +144,7 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
         size: `large`
       }, null, _parent));
     });
-    _push(`<!--]--></div></section><section class="top" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>Latest</h2><div class="movie-list" data-v-8c7d8a8d><!--[-->`);
+    _push(`<!--]--></div></section><section class="top" data-v-d307453a><h2 data-v-d307453a>Latest</h2><div class="movie-list" data-v-d307453a><!--[-->`);
     ssrRenderList(_ctx.store.topRated, (movie, index) => {
       _push(ssrRenderComponent(_component_film_card, {
         key: index,
@@ -156,9 +155,9 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
         rating: Math.round(movie.vote_average * 10) / 10
       }, null, _parent));
     });
-    _push(`<!--]--></div></section><section class="extra" data-v-8c7d8a8d><h2 data-v-8c7d8a8d>German</h2><div class="movie-list" data-v-8c7d8a8d>`);
+    _push(`<!--]--></div></section><section class="extra" data-v-d307453a><h2 data-v-d307453a>German</h2><div class="movie-list" data-v-d307453a>`);
     if (!_ctx.user.isAuthorised) {
-      _push(`<p data-v-8c7d8a8d>Visible only for Authorised users</p>`);
+      _push(`<p data-v-d307453a>Visible only for Authorised users</p>`);
     } else {
       _push(`<!---->`);
     }
@@ -182,7 +181,7 @@ _sfc_main$6.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/pages/HomeView.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const HomeView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-8c7d8a8d"]]);
+const HomeView = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$6], ["__scopeId", "data-v-d307453a"]]);
 const _sfc_main$5 = defineComponent({
   name: "ErrorView",
   setup() {
@@ -224,7 +223,8 @@ const routes = [
   { path: "/error", component: ErrorView }
 ];
 const router = createRouter({
-  history: createMemoryHistory("/test/"),
+  history: createMemoryHistory(),
+  // history: createMemoryHistory('/test/'),
   routes
 });
 const useMovieStore = defineStore("Movies", {
@@ -232,6 +232,7 @@ const useMovieStore = defineStore("Movies", {
     input: "",
     results: [],
     genres: [],
+    genresCall: [],
     trending: [],
     austrian: [],
     topRated: [],
@@ -244,19 +245,22 @@ const useMovieStore = defineStore("Movies", {
   actions: {
     async getMovies() {
       this.loaders.main = true;
+      this.loaders.user = true;
       try {
-        const [trendingData, topRatedData] = await Promise.all([
+        const [trendingData, topRatedData, genresResponse] = await Promise.all([
           apiClient.get("/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"),
-          apiClient.get("/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200")
+          apiClient.get("/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200"),
+          apiClient.get(`/genre/movie/list?language=en}`)
         ]);
         this.trending = trendingData.data.results;
         this.topRated = topRatedData.data.results;
+        this.genres = genresResponse.data.genres;
       } catch (error) {
         console.log("error");
         await this.goToErrorPage(error);
       } finally {
         this.loaders.main = false;
-        await this.getAustrian();
+        this.loaders.user = false;
       }
     },
     async searchMovies() {
@@ -280,27 +284,25 @@ const useMovieStore = defineStore("Movies", {
       this.input = "";
     },
     async genreButton(id) {
-      if (this.genres.indexOf(id) === -1) {
-        this.genres.push(id);
+      if (this.genresCall.indexOf(id) === -1) {
+        this.genresCall.push(id);
       } else {
-        this.genres.splice(this.genres.indexOf(id), 1);
+        this.genresCall.splice(this.genresCall.indexOf(id), 1);
       }
-      if (this.genres.length === 0) {
+      if (this.genresCall.length === 0) {
         await this.getMovies();
       } else {
         this.loaders.main = true;
         try {
-          console.log(this.genres.at(0));
-          let query = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genres.at(0)}`;
-          let queryTwo = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genres.at(0)}`;
-          if (this.genres.length > 1) {
-            for (let i = 1; i < this.genres.length; i++) {
-              console.log(this.genres.at(i));
-              query += `,${this.genres[i]}`;
-              queryTwo += `,${this.genres[i]}`;
+          let query = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genresCall.at(0)}`;
+          let queryTwo = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genresCall.at(0)}`;
+          if (this.genresCall.length > 1) {
+            for (let i = 1; i < this.genresCall.length; i++) {
+              console.log(this.genresCall.at(i));
+              query += `,${this.genresCall[i]}`;
+              queryTwo += `,${this.genresCall[i]}`;
             }
           }
-          console.log(query);
           const [trendingData, topRatedData] = await Promise.all([
             apiClient.get(query),
             apiClient.get(queryTwo)
@@ -316,8 +318,8 @@ const useMovieStore = defineStore("Movies", {
         }
       }
     },
-    goToErrorPage(error) {
-      router.push("/error");
+    async goToErrorPage(error) {
+      await router.push("/error");
       this.error = error;
     },
     async getAustrian() {
@@ -379,12 +381,12 @@ const useUserStore = defineStore("User", {
           })
         });
         if (!response.ok) {
-          store2.goToErrorPage(response.status);
+          await store2.goToErrorPage(response.status);
         }
         this.profile = await response.json();
         this.isAuthorised = true;
       } catch (error) {
-        store2.goToErrorPage(error);
+        await store2.goToErrorPage(error);
       } finally {
         this.lock.disable();
       }
@@ -448,7 +450,7 @@ const _sfc_main$3 = {
       store2.searchMovies();
     }, 300);
     const isActive = (id) => {
-      return store2.genres.includes(id);
+      return store2.genresCall.includes(id);
     };
     const choose = (id) => {
       store2.genreButton(id);
@@ -462,21 +464,21 @@ const _sfc_main$3 = {
   }
 };
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  _push(`<aside${ssrRenderAttrs(mergeProps({ class: "sidebar-right" }, _attrs))} data-v-7b5be482>`);
+  _push(`<aside${ssrRenderAttrs(mergeProps({ class: "sidebar-right" }, _attrs))} data-v-1638a336>`);
   if ($setup.store.loaders.user) {
-    _push(`<div class="profile" data-v-7b5be482><div class="loader-profile" data-v-7b5be482></div></div>`);
+    _push(`<div class="profile" data-v-1638a336><div class="loader-profile" data-v-1638a336></div></div>`);
   } else if ($props.profile) {
-    _push(`<div class="profile" data-v-7b5be482><img${ssrRenderAttr("src", $props.profile.image)} alt="Profile picture" data-v-7b5be482><div class="profile-data" data-v-7b5be482><p class="profile-name" data-v-7b5be482>${ssrInterpolate($props.profile.firstName)} ${ssrInterpolate($props.profile.lastName)}</p><p class="profile-email" data-v-7b5be482>${ssrInterpolate($props.profile.email)}</p></div></div>`);
+    _push(`<div class="profile" data-v-1638a336><img${ssrRenderAttr("src", $props.profile.image)} alt="Profile picture" data-v-1638a336><div class="profile-data" data-v-1638a336><p class="profile-name" data-v-1638a336>${ssrInterpolate($props.profile.firstName)} ${ssrInterpolate($props.profile.lastName)}</p><p class="profile-email" data-v-1638a336>${ssrInterpolate($props.profile.email)}</p></div></div>`);
   } else {
     _push(`<!---->`);
   }
-  _push(`<div class="search" data-v-7b5be482><input type="text"${ssrRenderAttr("value", $setup.store.input)} placeholder="Search movies" data-v-7b5be482></div>`);
+  _push(`<div class="search" data-v-1638a336><input type="text"${ssrRenderAttr("value", $setup.store.input)} placeholder="Search movies" data-v-1638a336></div>`);
   if ($setup.store.loaders.user) {
-    _push(`<div class="loader-genres" data-v-7b5be482></div>`);
+    _push(`<div class="loader-genres" data-v-1638a336></div>`);
   } else {
-    _push(`<div class="genres" data-v-7b5be482><span class="title" data-v-7b5be482>genre</span><div class="list" data-v-7b5be482><!--[-->`);
+    _push(`<div class="genres" data-v-1638a336><span class="title" data-v-1638a336>genre</span><div class="list" data-v-1638a336><!--[-->`);
     ssrRenderList($props.genres, (genre) => {
-      _push(`<div class="${ssrRenderClass({ active: $setup.isActive(genre.id) })}" data-v-7b5be482>${ssrInterpolate(genre.name)}</div>`);
+      _push(`<div class="${ssrRenderClass({ active: $setup.isActive(genre.id) })}" data-v-1638a336>${ssrInterpolate(genre.name)}</div>`);
     });
     _push(`<!--]--></div></div>`);
   }
@@ -488,7 +490,7 @@ _sfc_main$3.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/components/RightSidebar.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
-const RightSidebar = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-7b5be482"]]);
+const RightSidebar = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["ssrRender", _sfc_ssrRender$3], ["__scopeId", "data-v-1638a336"]]);
 const _sfc_main$2 = {
   props: {
     isVisible: Boolean
@@ -545,7 +547,7 @@ function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   }, _attrs), {
     default: withCtx((_2, _push2, _parent2, _scopeId) => {
       if (_push2) {
-        _push2(`<button class="close" data-v-02d0ea57${_scopeId}>×</button><form data-v-02d0ea57${_scopeId}><div data-v-02d0ea57${_scopeId}><label data-v-02d0ea57${_scopeId}>Username</label><input${ssrRenderAttr("value", $data.username)} type="text" required data-v-02d0ea57${_scopeId}></div><div data-v-02d0ea57${_scopeId}><label data-v-02d0ea57${_scopeId}>Password</label><input${ssrRenderAttr("value", $data.password)} type="password" data-v-02d0ea57${_scopeId}></div><button class="submit" type="submit" data-v-02d0ea57${_scopeId}>Login</button></form>`);
+        _push2(`<button class="close" data-v-51f8c16b${_scopeId}>×</button><form data-v-51f8c16b${_scopeId}><div data-v-51f8c16b${_scopeId}><label data-v-51f8c16b${_scopeId}>Username</label><input${ssrRenderAttr("value", $data.username)} type="text" required data-v-51f8c16b${_scopeId}></div><div data-v-51f8c16b${_scopeId}><label data-v-51f8c16b${_scopeId}>Password</label><input${ssrRenderAttr("value", $data.password)} type="password" data-v-51f8c16b${_scopeId}></div><button class="submit" type="submit" data-v-51f8c16b${_scopeId}>Login</button></form>`);
       } else {
         return [
           createVNode("button", {
@@ -591,28 +593,15 @@ _sfc_main$1.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/components/Login.vue");
   return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
-const Login = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["ssrRender", _sfc_ssrRender$1], ["__scopeId", "data-v-02d0ea57"]]);
+const Login = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["ssrRender", _sfc_ssrRender$1], ["__scopeId", "data-v-51f8c16b"]]);
 const _sfc_main = defineComponent({
   methods: { useUserStore },
   components: { Login, RightSidebar, LeftSidebar },
   setup() {
     const store2 = useMovieStore();
-    const genres = ref([]);
-    onMounted(async () => {
-      store2.loaders.user = true;
-      try {
-        const genresResponse = await apiClient.get(`https://api.themoviedb.org/3/genre/movie/list?language=en}`);
-        genres.value = genresResponse.data.genres;
-      } catch (error) {
-        await store2.goToErrorPage(error);
-      } finally {
-        store2.loaders.user = false;
-      }
-    });
-    store2.getMovies();
+    store2.getAustrian();
     return {
-      store: store2,
-      genres
+      store: store2
     };
   }
 });
@@ -621,7 +610,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   const _component_Login = resolveComponent("Login");
   const _component_RouterView = resolveComponent("RouterView");
   const _component_RightSidebar = resolveComponent("RightSidebar");
-  _push(`<div${ssrRenderAttrs(mergeProps({ class: "page" }, _attrs))} data-v-cbf21640>`);
+  _push(`<div${ssrRenderAttrs(mergeProps({ class: "page" }, _attrs))} data-v-e17d0c6b>`);
   _push(ssrRenderComponent(_component_LeftSidebar, null, null, _parent));
   if (_ctx.useUserStore().isLogin) {
     _push(ssrRenderComponent(_component_Login, null, null, _parent));
@@ -631,7 +620,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
   _push(ssrRenderComponent(_component_RouterView, null, null, _parent));
   _push(ssrRenderComponent(_component_RightSidebar, {
     profile: _ctx.useUserStore().profile,
-    genres: _ctx.genres
+    genres: _ctx.store.genres
   }, null, _parent));
   _push(`</div>`);
 }
@@ -641,11 +630,14 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("src/App.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-cbf21640"]]);
+const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender], ["__scopeId", "data-v-e17d0c6b"]]);
 function createApp() {
   const app = createSSRApp(App);
-  app.use(createPinia());
+  const pinia = createPinia();
+  app.use(pinia);
   app.use(router);
+  const store2 = useMovieStore();
+  store2.getMovies();
   return { app };
 }
 async function render() {
