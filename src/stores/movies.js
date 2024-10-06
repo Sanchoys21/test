@@ -8,6 +8,7 @@ export const useMovieStore = defineStore('Movies', {
         input: "",
         results: [],
         genres: [],
+        genresCall: [],
         trending: [],
         austrian: [],
         topRated: [],
@@ -62,29 +63,27 @@ export const useMovieStore = defineStore('Movies', {
             this.input = ''
         },
         async genreButton(id) {
-            if (this.genres.indexOf(id) === -1) {
-                this.genres.push(id)
+            if (this.genresCall.indexOf(id) === -1) {
+                this.genresCall.push(id)
             } else {
-                this.genres.splice(this.genres.indexOf(id), 1)
+                this.genresCall.splice(this.genresCall.indexOf(id), 1)
             }
 
-            if (this.genres.length === 0) {
+            if (this.genresCall.length === 0) {
                 await this.getMovies()
             } else {
                 this.loaders.main = true;
                 try {
-                    console.log(this.genres.at(0))
-                    let query = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genres.at(0)}`
-                    let queryTwo = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genres.at(0)}`
+                    let query = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${this.genresCall.at(0)}`
+                    let queryTwo = `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=primary_release_date.desc&vote_count.gte=200&with_genres=${this.genresCall.at(0)}`
 
-                    if (this.genres.length > 1) {
-                        for (let i = 1; i < this.genres.length; i++) {
-                            console.log(this.genres.at(i))
-                            query += `,${this.genres[i]}`
-                            queryTwo += `,${this.genres[i]}`
+                    if (this.genresCall.length > 1) {
+                        for (let i = 1; i < this.genresCall.length; i++) {
+                            console.log(this.genresCall.at(i))
+                            query += `,${this.genresCall[i]}`
+                            queryTwo += `,${this.genresCall[i]}`
                         }
                     }
-                    console.log(query)
                     const [trendingData, topRatedData] = await Promise.all([
                         apiClient.get(query),
                         apiClient.get(queryTwo)
@@ -104,8 +103,8 @@ export const useMovieStore = defineStore('Movies', {
             }
 
         },
-        goToErrorPage(error) {
-            router.push("/error");
+        async goToErrorPage(error) {
+            await router.push("/error");
             this.error = error;
         },
         async getAustrian() {

@@ -4,14 +4,15 @@ import {createPinia} from "pinia";
 import router from "@/router.js";
 import {useMovieStore} from "@/stores/movies.js";
 
-export async function createApp() {
+export function createApp() {
     const app = createSSRApp(App)
     const pinia = createPinia();
 
     app.use(pinia)
     app.use(router)
-    const store = useMovieStore(pinia);
-    await store.getMovies();
+
+    const store = useMovieStore()
+    store.getMovies()
 
     return {app}
 }

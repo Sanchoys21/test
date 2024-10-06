@@ -53,6 +53,9 @@ export default {
 
 <style scoped>
 .close {
+  border: none;
+  background: #1A171E;
+  color: white;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -60,7 +63,7 @@ export default {
 }
 
 input {
-  width: 100%;
+  width: 96%;
   padding: 5px;
   border-radius: 8px;
   background-color: white;
@@ -73,6 +76,7 @@ input {
   background-color: #6F6E74;
   border-radius: 8px;
   transition: background-color 0.3s ease-in-out;
+  color: white;
 }
 
 .submit:hover {

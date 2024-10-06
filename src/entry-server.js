@@ -1,8 +1,8 @@
 import {renderToString} from 'vue/server-renderer'
-import {createApp} from './main.js'
+import {createApp} from './main'
 
 export async function render() {
-    const {app} = await createApp()
+    const {app} = createApp()
     const ctx = {}
     const html = await renderToString(app, ctx)
 

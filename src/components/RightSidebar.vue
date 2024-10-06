@@ -14,7 +14,7 @@ export default {
       store.searchMovies();
     }, 300)
     const isActive = (id) => {
-      return store.genres.includes(id)
+      return store.genresCall.includes(id)
     }
     const choose = (id) => {
       store.genreButton(id)

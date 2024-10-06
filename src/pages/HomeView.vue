@@ -9,7 +9,6 @@ export default defineComponent({
   setup() {
     const store = useMovieStore();
     const user = useUserStore();
-    store.getMovies();
     return {
       store,
       user

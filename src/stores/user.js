@@ -52,13 +52,13 @@ export const useUserStore = defineStore('User', {
                 });
 
                 if (!response.ok) {
-                    store.goToErrorPage(response.status);
+                    await store.goToErrorPage(response.status);
                 }
 
                 this.profile = await response.json();
                 this.isAuthorised = true;
             } catch (error) {
-                store.goToErrorPage(error);
+                await store.goToErrorPage(error);
             } finally {
                 this.lock.disable();
             }

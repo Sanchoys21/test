@@ -1,45 +1,36 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import {fileURLToPath} from 'node:url'
+import fs from 'node:fs/promises'
 import express from 'express'
-import {createServer as createViteServer} from 'vite'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const app = express()
 
-async function createServer() {
-    const app = express()
+let vite
+const {createServer} = await import('vite')
+vite = await createServer({
+    server: {middlewareMode: true},
+    appType: 'custom',
+})
+app.use(vite.middlewares)
 
-    const vite = await createViteServer({
-        server: {middlewareMode: true},
-        appType: 'custom'
-    })
-
-    app.use(vite.middlewares)
-
-    app.use('*', async (req, res) => {
+app.use('*', async (req, res) => {
+    try {
         const url = req.originalUrl
 
-        try {
-            let template = fs.readFileSync(
-                path.resolve(__dirname, 'index.html'),
-                'utf-8',
-            )
+        let template = await fs.readFile('./index.html', 'utf-8')
+        template = await vite.transformIndexHtml(url, template)
+        let render = (await vite.ssrLoadModule('./src/entry-server.js')).render
 
-            template = await vite.transformIndexHtml(url, template)
-            const { render } = await vite.ssrLoadModule('/src/entry-server.js')
-            const appHtml = await render(url)
-            const html = template.replace(`<!--ssr-outlet-->`, appHtml)
-            res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-        } catch (e) {
-            vite.ssrFixStacktrace(e)
-            console.error(e)
-            res.status(404).end(e.message)
-            // res.status(500).end(e.message)
-        }
-    })
+        const rendered = await render(url)
 
-    app.listen(3000)
-}
+        const html = template.replace(`<!--app-html-->`, rendered.html ?? '')
 
-createServer()
+        res.status(200).set({'Content-Type': 'text/html'}).send(html)
+    } catch (e) {
+        vite?.ssrFixStacktrace(e)
+        console.log(e.stack)
+        res.status(500).end(e.stack)
+    }
+})
 
+app.listen(3000, () => {
+    console.log(`Server started at http://localhost:3000`)
+})
