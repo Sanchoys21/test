@@ -5,6 +5,7 @@ import {useMovieStore} from "@/stores/movies.js";
 import {useUserStore} from "@/stores/user.js";
 
 export default defineComponent({
+  name: "HomeView",
   components: {FilmCard},
   setup() {
     const store = useMovieStore();

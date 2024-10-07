@@ -1,4 +1,4 @@
 import {createApp} from './main'
 
-const {app} = createApp()
+const {app} = await createApp()
 app.mount('#app')
